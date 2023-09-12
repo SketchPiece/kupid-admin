@@ -1,20 +1,19 @@
 import {
   Refine,
-  GitHubBanner,
-  WelcomePage,
+  // WelcomePage,
   Authenticated,
 } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
 import {
-  AuthPage,
+  // AuthPage,
   ErrorComponent,
   notificationProvider,
   RefineThemes,
   ThemedLayoutV2,
+  ThemedTitleV2,
 } from "@refinedev/mantine";
 
-import dataProvider from "@refinedev/simple-rest";
 import {
   MantineProvider,
   Global,
@@ -47,6 +46,8 @@ import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 import { ForgotPassword } from "./pages/forgotPassword";
 import { authProvider } from "./authProvider";
+import { dataProvider } from "./rest-data-provider";
+import { AppIcon } from "./components/app-icon";
 
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
@@ -60,15 +61,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      <GitHubBanner />
       <RefineKbarProvider>
         <ColorSchemeProvider
           colorScheme={colorScheme}
           toggleColorScheme={toggleColorScheme}
         >
-          {/* You can change the theme colors here. example: theme={{ ...RefineThemes.Magenta, colorScheme:colorScheme }} */}
           <MantineProvider
-            theme={{ ...RefineThemes.Blue, colorScheme: colorScheme }}
+            theme={{ ...RefineThemes.Purple, colorScheme: colorScheme }}
             withNormalizeCSS
             withGlobalStyles
           >
@@ -113,7 +112,16 @@ function App() {
                       <Authenticated
                         fallback={<CatchAllNavigate to="/login" />}
                       >
-                        <ThemedLayoutV2 Header={() => <Header sticky />}>
+                        <ThemedLayoutV2
+                          Header={() => <Header sticky />}
+                          Title={({ collapsed }) => (
+                            <ThemedTitleV2
+                              collapsed={collapsed}
+                              text="Kupid Admin"
+                              icon={<AppIcon />}
+                            />
+                          )}
+                        >
                           <Outlet />
                         </ThemedLayoutV2>
                       </Authenticated>
